@@ -6,7 +6,12 @@
         label="Phone Number"
         required
         @onValidate="onValidate"
+        @onInput="onInput"
       ></vue-tel-input>
+      <v-alert
+        :value="showAlert"
+        type="error"
+      >This is a success alert.</v-alert>
 
       <v-btn @click="submit" :disabled="!isValid">submit</v-btn>
       <v-btn @click="clear">clear</v-btn>
@@ -25,6 +30,7 @@ export default {
   data: () => ({
     phoneNumber: "",
     isValid: false,
+    showAlert: false,
   }),
 
   methods: {
@@ -35,9 +41,14 @@ export default {
     },
     clear() {
       this.phoneNumber = "";
+      this.showAlert = false;
+      this.isValid = false;
     },
     onValidate({ number, isValid, country }) {
       this.isValid = isValid;
+    },
+    onInput({ number, isValid, country }) {
+      this.showAlert = (!isValid && !(number === ""));
     }
   }
 };
