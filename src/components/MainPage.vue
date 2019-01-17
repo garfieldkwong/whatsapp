@@ -1,16 +1,14 @@
 <template>
   <v-container>
     <v-form @submit="submit" onSubmit="return false;">
-      <v-text-field
-        v-validate="'required|decimal'"
+      <vue-tel-input
         v-model="phoneNumber"
-        :error-messages="errors.collect('phoneNumber')"
         label="Phone Number"
-        data-vv-name="phoneNumber"
         required
-      ></v-text-field>
+        @onValidate="onValidate"
+      ></vue-tel-input>
 
-      <v-btn @click="submit">submit</v-btn>
+      <v-btn @click="submit" :disabled="!isValid">submit</v-btn>
       <v-btn @click="clear">clear</v-btn>
     </v-form>
   </v-container>
@@ -18,37 +16,33 @@
 
 <script>
 import Vue from "vue";
-//   import VueTelInput from 'vue-tel-input'
-import VeeValidate from "vee-validate";
+import VueTelInput from 'vue-tel-input'
 
-//   Vue.use(VueTelInput)
-Vue.use(VeeValidate);
+Vue.use(VueTelInput)
 
 export default {
-  $_veeValidate: {
-    validator: "new"
-  },
 
   data: () => ({
-    phoneNumber: ""
+    phoneNumber: "",
+    isValid: false,
   }),
 
   methods: {
     submit() {
-      this.$validator.validateAll().then(result => {
-        if (result) {
-          window.location.href =
-            "https://api.whatsapp.com/send?phone=" + this.phoneNumber;
-        }
-      });
+      var phoneNumber = this.phoneNumber.replace(new RegExp("\\+| ", 'g'), "");
+      // console.log("bb", phoneNumber);
+      window.location.href = "https://api.whatsapp.com/send?phone=" + phoneNumber;
     },
     clear() {
       this.phoneNumber = "";
-      this.$validator.reset();
+    },
+    onValidate({ number, isValid, country }) {
+      this.isValid = isValid;
     }
   }
 };
 </script>
 
 <style>
+  @import "../../node_modules/vue-tel-input/dist/vue-tel-input.css"
 </style>
