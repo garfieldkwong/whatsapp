@@ -29,13 +29,13 @@ export default {
   data: () => ({
     phoneNumber: "",
     isValid: false,
-    showAlert: false
+    showAlert: false,
+    timeoutID: null,
   }),
 
   methods: {
     submit() {
       var phoneNumber = this.phoneNumber.replace(new RegExp("\\+| ", "g"), "");
-      // console.log("bb", phoneNumber);
       window.location.href =
         "https://api.whatsapp.com/send?phone=" + phoneNumber;
     },
@@ -48,7 +48,19 @@ export default {
       this.isValid = isValid;
     },
     onInput({ number, isValid, country }) {
-      this.showAlert = !isValid && !(number === "");
+      this.showAlert = false;
+      if (this.timeoutID !== null) {
+        clearTimeout(this.timeoutID);
+        this.timeoutID = null;
+      }
+      if (!isValid && !(number === "")) {
+        var self = this;
+        this.timeoutID = setTimeout(
+          function() {
+            self.showAlert = true;
+          }, 1000
+        );
+      }
     }
   }
 };
