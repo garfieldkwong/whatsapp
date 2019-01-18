@@ -39,20 +39,24 @@ export default {
       window.location.href =
         "https://api.whatsapp.com/send?phone=" + phoneNumber;
     },
+    clearTimer() {
+      if (this.timeoutID !== null) {
+        clearTimeout(this.timeoutID);
+        this.timeoutID = null;
+      }
+    },
     clear() {
       this.phoneNumber = "";
       this.showAlert = false;
       this.isValid = false;
+      this.clearTimer();
     },
     onValidate({ number, isValid, country }) {
       this.isValid = isValid;
     },
     onInput({ number, isValid, country }) {
       this.showAlert = false;
-      if (this.timeoutID !== null) {
-        clearTimeout(this.timeoutID);
-        this.timeoutID = null;
-      }
+      this.clearTimer();
       if (!isValid && !(number === "")) {
         var self = this;
         this.timeoutID = setTimeout(
