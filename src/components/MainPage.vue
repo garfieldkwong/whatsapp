@@ -11,7 +11,7 @@
       <v-alert
         :value="showAlert"
         type="error"
-      >This is a success alert.</v-alert>
+      >Please input a valid phone number</v-alert>
 
       <v-btn @click="submit" :disabled="!isValid">submit</v-btn>
       <v-btn @click="clear">clear</v-btn>
