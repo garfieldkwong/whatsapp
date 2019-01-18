@@ -21,23 +21,23 @@
 
 <script>
 import Vue from "vue";
-import VueTelInput from 'vue-tel-input'
+import VueTelInput from "vue-tel-input";
 
-Vue.use(VueTelInput)
+Vue.use(VueTelInput);
 
 export default {
-
   data: () => ({
     phoneNumber: "",
     isValid: false,
-    showAlert: false,
+    showAlert: false
   }),
 
   methods: {
     submit() {
-      var phoneNumber = this.phoneNumber.replace(new RegExp("\\+| ", 'g'), "");
+      var phoneNumber = this.phoneNumber.replace(new RegExp("\\+| ", "g"), "");
       // console.log("bb", phoneNumber);
-      window.location.href = "https://api.whatsapp.com/send?phone=" + phoneNumber;
+      window.location.href =
+        "https://api.whatsapp.com/send?phone=" + phoneNumber;
     },
     clear() {
       this.phoneNumber = "";
@@ -48,12 +48,12 @@ export default {
       this.isValid = isValid;
     },
     onInput({ number, isValid, country }) {
-      this.showAlert = (!isValid && !(number === ""));
+      this.showAlert = !isValid && !(number === "");
     }
   }
 };
 </script>
 
 <style>
-  @import "../../node_modules/vue-tel-input/dist/vue-tel-input.css"
+@import "../../node_modules/vue-tel-input/dist/vue-tel-input.css";
 </style>
